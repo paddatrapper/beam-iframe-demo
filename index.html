@@ -1,0 +1,49 @@
+<html>
+  <head>
+    <title>BEAM Public PoC</title>
+  </head>
+  <body>
+    <p>get_property_report_data response: <pre id=get_property_report_data>Nothing received</pre></p>
+    <p>get_aggregated_property_report_data response: <pre id=get_aggregated_property_report_data>Nothing received</pre></p>
+    <p>columns response: <pre id=columns>Nothing received</pre></p>
+    <p>cycles response: <pre id=cycles>Nothing received</pre></p>
+  </body>
+  <script>
+    var org_id = 1;
+    var propertyHttp = new XMLHttpRequest();
+    propertyHttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById('get_property_report_data').innerHTML = this.responseText;
+        }
+    }
+    propertyHttp.open('GET', 'http://localhost:7080/api/v2/get_property_report_data/?end=2019-12-31T23:53:00-08:00&organization_id=' + org_id + '&start=2018-12-31T23:53:00-08:00&x_var=building_count&y_var=gross_floor_area');
+    propertyHttp.send();
+
+    var aggregatedHttp = new XMLHttpRequest();
+    aggregatedHttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById('get_aggregated_property_report_data').innerHTML = this.responseText;
+        }
+    }
+    aggregatedHttp.open('GET', 'http://localhost:7080/api/v2/get_aggregated_property_report_data/?end=2019-12-31T23:53:00-08:00&organization_id=' + org_id + '&start=2018-12-31T23:53:00-08:00&x_var=building_count&y_var=gross_floor_area');
+    aggregatedHttp.send();
+
+    var columnHttp = new XMLHttpRequest();
+    columnHttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById('columns').innerHTML = this.responseText;
+        }
+    }
+    columnHttp.open('GET', 'http://localhost:7080/api/v2/properties/columns/?only_used=false&organization_id=' + org_id);
+    columnHttp.send();
+
+    var cyclesHttp = new XMLHttpRequest();
+    cyclesHttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById('cycles').innerHTML = this.responseText;
+        }
+    }
+    cyclesHttp.open('GET', 'http://localhost:7080/api/v3/cycles/?organization_id=' + org_id);
+    cyclesHttp.send();
+  </script>
+</html>
